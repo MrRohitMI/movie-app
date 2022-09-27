@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-image: url("https://wallpapercave.com/wp/wp5483697.jpg");
+        }
+        #container{
+            height: 400px;
+            width: 400px;
+            /* border: 1px red solid; */
+            margin: auto;
+            /* margin-top: 150px; */
+            
+        }
+        input{
+            width:300px;
+            height: 40px;
+            
+        }
+        #movies{
+            height: 300px;
+            width: 306px;
+            /* border:solid 1px black; */
+            border-top:none;
+            overflow: scroll;
+        }
+        h1,h3,h4{
+            color: gold;
+        }
+        a{
+            color: red;
+        }
+ 
+        
+    </style>
+</head>
+<body>
+    <div id="container">
+     <h1><a href="trending.html">Popular Movies</a></h1>
+    <input oninput="debouncing(main,1000)" type="text" id="query">
+    <div id="movies"></div>
+    <div id="box"></div>
+    </div>
+</body>
+<script>
+    let id;
+    var movies=document.querySelector("#movies")
+    async function searchMovies(query){
+        try{
+        let url="http://www.omdbapi.com/?&apikey=11f6d1e9&s="+query;
+        let res=await fetch(url);
+        let data=await res.json();
+        return data.Search;
+
+    }
+    catch(data){
+        console.log(error)
+    }
+    }
+    async function main(){
+        let query=document.getElementById("query").value;
+        // console.log("query:",query)
+        let response=searchMovies(query);
+        let data=await response;
+        appendMovies(data)
+
+    }
+    function appendMovies(Movies){
+        movies.innerHTML=null;
+        if(Movies===undefined)
+        {
+            return false
+        }
+        Movies.forEach(function(el){
+       
+             let p1=document.createElement("p");
+             p1.innerText=el.Title
+             p1.style.color="gold"
+             p1.style.fontWeight="40px"
+             p1.addEventListener("click",function(){
+                 myfun(el)
+             })
+             movies.append(p1)
+
+        
+
+        })
+        
+    }
+    function debouncing(func,delay)
+    {
+        if(id)
+        {
+            clearTimeout(id)
+        }
+        id=setTimeout(function(){
+            func()
+        },delay)
+    }
+    function myfun(el)
+    {
+        
+         var box=document.querySelector("#box");
+         box.innerHTML=null;
+         var img=document.createElement("img");
+        img.src=el.Poster;
+        let title=document.createElement("h3");
+        title.innerText=el.Title;
+        let year=document.createElement("h3");
+        year.innerText=el.Year;
+        let type=document.createElement("h4");
+        type.innerText=el.Type;
+        box.append(img,title,year,type)
+
+    }
+</script>
+</html>

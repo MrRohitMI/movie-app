@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+<script>
+    async function getdata(){
+        try{
+    let url="https://api.themoviedb.org/3/movie/popular?api_key=3a056f3f5044fa828288094d264d0af9";
+    let res=await fetch(url);
+    let data=await res.json();
+    return data.results;
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+    async function main(){
+        let data=await getdata()
+        console.log(data)
+        display(data)
+    }
+    main()
+    function display(data){
+        data.forEach(el => {
+            var parent=document.createElement("div");
+            var img=document.createElement("img");
+            img.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPeYd60lh7pNYtF2WVcIN15wdWbQK1KHU53w&usqp=CAU"
+            let title=document.createElement("h3");
+            title.innerText=el.title;
+            let year=document.createElement("h4");
+            year.innerText=el.release_date;
+            let rating=document.createElement("h3");
+            rating.innerText=el.vote_average;
+            parent.append(img,title,year,rating)
+            document.querySelector("#container").append(parent)
+        });
+
+    }
+</script>
+</html>
