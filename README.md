@@ -11,4 +11,4 @@ In this with the help of debouncing you can search movies
 
 ## Support
 
-If you have any feedback, please reach out to us at www.rohitmourya0012@gmail.com
+If you have any feedback, please reach out to us at rohitmourya0012@gmail.com
